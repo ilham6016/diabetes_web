@@ -1,0 +1,16 @@
+.dashboard-overview-row {
+  margin-bottom: 32px;
+}
+
+/* ✅ แถวที่ 2 - 2 คอลัมน์ */
+.grid-two-boxes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .grid-two-boxes {
+    grid-template-columns: 1fr 1fr;
+  }
+}

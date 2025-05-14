@@ -1,0 +1,89 @@
+.risk-card {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+  }
+  
+  .risk-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .risk-card-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #2d3748;
+  }
+  
+  .see-all-btn {
+    font-size: 0.875rem;
+    color: #3182ce;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .see-all-btn:hover {
+    color: #2b6cb0;
+  }
+  
+  .risk-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .risk-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    margin-right: 0.5rem;
+  }
+  
+  .label {
+    flex: 1;
+    font-size: 0.875rem;
+    color: #4a5568;
+  }
+  
+  .count {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  /* ปิงปองจราจร 7 สี */
+  .ping-pong-green {
+    background-color: #38a169;
+  }
+  .ping-pong-yellow {
+    background-color: #ecc94b;
+  }
+  .ping-pong-orange {
+    background-color: #ed8936;
+  }
+  .ping-pong-red {
+    background-color: #e53e3e;
+  }
+  .ping-pong-red-dark {
+    background-color: #9b2c2c;
+  }
+  .ping-pong-black {
+    background-color: #2d3748;
+  }
+  .ping-pong-white {
+    background-color: #edf2f7;
+    border: 1px solid #cbd5e0;
+  }
+  
+  .risk-chart {
+    margin-top: 1.5rem;
+  }
+  

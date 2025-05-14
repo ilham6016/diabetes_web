@@ -1,0 +1,19 @@
+/* C:\Users\masen\OneDrive\Desktop\PROJECT END\Coding\diabetes\frontend\src\App.css */
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap');
+
+body {
+  font-family: 'Sarabun', sans-serif;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* ไม่จำเป็นต้องกำหนด font-family ที่นี่อีก */
+}
+
+/* CSS อื่นๆ ของ App.css */

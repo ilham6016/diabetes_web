@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap');
+
+.additional-info-container {
+  max-width: 400px;
+  margin: 5rem auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Sarabun', sans-serif;
+  color: #1e293b;
+}
+
+.additional-info-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  color: #1d4ed8;
+}
+
+.additional-info-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.additional-info-container input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.additional-info-container button[type="submit"] {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.additional-info-container button[type="submit"]:hover {
+  background-color: #059669;
+}
+
+.message {
+  text-align: center;
+  margin-top: 1rem;
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.back-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.back-link a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back-link a:hover {
+  text-decoration: underline;
+}
