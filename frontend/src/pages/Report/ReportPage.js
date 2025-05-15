@@ -10,6 +10,8 @@ import { PatientInfoCard, PatientDetails } from '../../components/Report/Patient
 import RiskPieChart from '../../components/Report/RiskPieChart';
 import HealthChartGroup from '../../components/Report/HealthChartGroup';
 
+const API_URL = process.env.REACT_APP_API;
+
 dayjs.extend(buddhistEra);
 dayjs.locale('th');
 
@@ -27,7 +29,7 @@ const ReportPage = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/reports/patients')
+    axios.get(`${API_URL}/api/reports/patients`)
       .then(res => {
         setPatients(res.data);
         if (res.data.length > 0) {
@@ -42,8 +44,9 @@ const ReportPage = () => {
 
     const fetchData = async () => {
       try {
-        const patientRes = await axios.get(`http://localhost:5000/api/reports/patient/${selectedPatientId}`);
-        const trendRes = await axios.get(`http://localhost:5000/api/reports/healthTrends/${selectedPatientId}`);
+const patientRes = await axios.get(`${API_URL}/api/reports/patient/${selectedPatientId}`);
+const trendRes = await axios.get(`${API_URL}/api/reports/healthTrends/${selectedPatientId}`);
+
 
         const patientData = patientRes.data;
         setSelectedPatient(patientData);

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API; // ดึงจาก .env
+
 const UserForm = ({ handleSave }) => {
-  // สถานะสำหรับจัดเก็บข้อมูลฟอร์ม
   const [formData, setFormData] = useState({
     username: "",
     name: "",
     email: "",
     password: "",
-    role: "user", // ค่าเริ่มต้นเป็น 'user'
+    role: "user",
   });
 
-  // จัดการการเปลี่ยนแปลงในฟิลด์ฟอร์ม
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,33 +19,31 @@ const UserForm = ({ handleSave }) => {
     });
   };
 
-  // จัดการการส่งข้อมูลฟอร์มไปยัง API
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token"); // ดึง Token จาก localStorage
+      const token = localStorage.getItem("token");
       if (!token) {
         alert("กรุณาเข้าสู่ระบบเพื่อดำเนินการ");
         return;
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/admin/accounts/add",
+        `${API_URL}/api/admin/accounts/add`, // 🔁 ใช้ API จาก .env
         formData,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // แนบ Token ใน Header
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      alert(response.data.message); // แจ้งผลเมื่อสำเร็จ
+      alert(response.data.message);
 
-      if (handleSave) handleSave(); // เรียก handleSave หากส่งจาก Parent Component
+      if (handleSave) handleSave();
 
-      // รีเซ็ตฟอร์มหลังจากเพิ่มข้อมูล
       setFormData({
         username: "",
         name: "",

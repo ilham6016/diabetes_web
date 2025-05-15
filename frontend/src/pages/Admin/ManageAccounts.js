@@ -16,6 +16,9 @@ import {
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 
+// 🔧 ดึง BASE API URL จาก .env
+const API_URL = process.env.REACT_APP_API;
+
 function ManageAccounts() {
   const [accounts, setAccounts] = useState([]);
   const [isAddingUser, setIsAddingUser] = useState(false);
@@ -34,7 +37,7 @@ function ManageAccounts() {
       }
 
       const currentUser = JSON.parse(atob(token.split(".")[1]));
-      const response = await axios.get("http://localhost:5000/api/admin/accounts", {
+      const response = await axios.get(`${API_URL}/api/admin/accounts`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -51,7 +54,7 @@ function ManageAccounts() {
   const handleAddUser = async (user) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/api/admin/accounts", user, {
+      await axios.post(`${API_URL}/api/admin/accounts`, user, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchAccounts();
@@ -71,7 +74,7 @@ function ManageAccounts() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/admin/accounts/${updatedUser.id}`,
+        `${API_URL}/api/admin/accounts/${updatedUser.id}`,
         updatedUser,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -89,7 +92,7 @@ function ManageAccounts() {
     if (window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบบัญชีนี้?")) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`http://localhost:5000/api/admin/accounts/${userId}`, {
+        await axios.delete(`${API_URL}/api/admin/accounts/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         fetchAccounts();
@@ -103,7 +106,7 @@ function ManageAccounts() {
   const handleApprove = async (userId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.patch(`http://localhost:5000/api/admin/accounts/${userId}/approve`, {}, {
+      await axios.patch(`${API_URL}/api/admin/accounts/${userId}/approve`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchAccounts();
@@ -116,7 +119,7 @@ function ManageAccounts() {
   const handleRevoke = async (userId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.patch(`http://localhost:5000/api/admin/accounts/${userId}/reject`, {}, {
+      await axios.patch(`${API_URL}/api/admin/accounts/${userId}/reject`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchAccounts();
@@ -127,11 +130,11 @@ function ManageAccounts() {
   };
 
   return (
-<div className="manage-accounts-container">
-  <h1>
-    <FontAwesomeIcon icon={faUserCog} />
-    จัดการบัญชีผู้ใช้
-  </h1>
+    <div className="manage-accounts-container">
+      <h1>
+        <FontAwesomeIcon icon={faUserCog} />
+        จัดการบัญชีผู้ใช้
+      </h1>
 
       {!editingUser && !isAddingUser && (
         <button onClick={() => setIsAddingUser((prev) => !prev)}>

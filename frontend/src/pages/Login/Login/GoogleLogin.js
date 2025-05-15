@@ -1,5 +1,9 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+
+const API_URL = process.env.REACT_APP_API;
+const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
 function parseJwt(token) {
   try {
     const base64Url = token.split('.')[1];
@@ -22,7 +26,7 @@ function parseJwt(token) {
 function GoogleLogin() {
   useEffect(() => {
     window.google.accounts.id.initialize({
-      client_id: "1096231308218-5bd1op2fctg1gljjskpl1qaa2uhfm5h1.apps.googleusercontent.com",
+      client_id: CLIENT_ID,
       callback: handleCallbackResponse,
     });
 
@@ -31,7 +35,7 @@ function GoogleLogin() {
 
   const handleCallbackResponse = async (response) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/google/login", {
+      const res = await axios.post(`${API_URL}/api/auth/google/login`, {
         googleIdToken: response.credential,
       });
       alert("Login Successful!");

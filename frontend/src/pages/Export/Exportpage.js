@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './ExportPage.css';
 
+const API_URL = process.env.REACT_APP_API;
+
 const ExportPage = () => {
   const [patients, setPatients] = useState([]);
   const [search, setSearch] = useState('');
@@ -13,20 +15,16 @@ const ExportPage = () => {
 
   const itemsPerPage = 8;
 
-  // โหลดข้อมูลจาก backend
   useEffect(() => {
-    const token = localStorage.getItem('token'); // รับ token จาก localStorage
-
-    // ตรวจสอบว่า Token มีอยู่หรือไม่
+    const token = localStorage.getItem('token');
     if (!token) {
       alert('กรุณาเข้าสู่ระบบเพื่อดำเนินการ');
       return;
     }
 
-    // ส่งคำขอ GET พร้อมกับ Token ใน Authorization header
-    axios.get('http://localhost:5000/api/export/all-patients', {
+    axios.get(`${API_URL}/api/export/all-patients`, {
       headers: {
-        Authorization: `Bearer ${token}`, // ส่ง token ใน header
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -60,47 +58,40 @@ const ExportPage = () => {
   };
 
   const confirmExport = async () => {
-    const baseUrl = 'http://localhost:5000/api/export';
     const queryParam = selectedPatients.join(',');
     const url =
       exportFormat === 'PDF'
-        ? `${baseUrl}/pdf?id=${queryParam}`
-        : `${baseUrl}/excel?ids=${queryParam}`;
-  
+        ? `${API_URL}/api/export/pdf?id=${queryParam}`
+        : `${API_URL}/api/export/excel?ids=${queryParam}`;
+
     const token = localStorage.getItem('token');
-  
     if (!token) {
       alert('กรุณาเข้าสู่ระบบเพื่อดำเนินการ');
       return;
     }
-  
+
     try {
       const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        responseType: 'blob', // สำคัญ!
+        responseType: 'blob',
       });
-  
-      // สร้าง blob เพื่อดาวน์โหลด
+
       const blob = new Blob([response.data]);
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-  
-      // ตั้งชื่อไฟล์ให้สื่อความหมาย
       const date = new Date().toLocaleDateString('th-TH').replace(/\//g, '-');
       const idsLabel = selectedPatients.join(',');
       link.download = `${date} ข้อมูลผู้ป่วย ${idsLabel}.${exportFormat === 'PDF' ? 'pdf' : 'xlsx'}`;
-  
       link.click();
     } catch (error) {
       console.error('Error exporting data:', error);
       alert('เกิดข้อผิดพลาดในการส่งออกข้อมูล');
     }
-  
+
     setIsConfirmingExport(false);
   };
-  
 
   const handleSelectAll = () => {
     if (selectAll) {

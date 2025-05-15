@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import GoogleRegister from "./GoogleRegister"; // ปุ่มสมัครด้วย Google
+import GoogleRegister from "./GoogleRegister";
 import "./Register.css";
 import { useNavigate, Link } from "react-router-dom";
+
+const API_URL = process.env.REACT_APP_API;
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -22,7 +24,7 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", formData);
+      const response = await axios.post(`${API_URL}/api/auth/register`, formData); // ✅ ใช้ API_URL
       setMessage(response.data.message);
 
       setTimeout(() => {

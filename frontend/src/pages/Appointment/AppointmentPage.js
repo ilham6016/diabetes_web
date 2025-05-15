@@ -6,6 +6,8 @@ import AppointmentTable from './AppointmentTable';
 import './AppointmentPage.css';
 import { getLocalISODate } from '../../components/utils';
 
+const API_URL = process.env.REACT_APP_API; // ✅ ใช้ค่าจาก .env
+
 const AppointmentPage = () => {
   const [appointments, setAppointments] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,32 +28,32 @@ const AppointmentPage = () => {
 
   const fetchAppointments = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/appointments');
+      const res = await axios.get(`${API_URL}/api/appointments`);
       setAppointments(res.data);
     } catch (err) {
       console.error('โหลดนัดหมายล้มเหลว:', err);
     }
   };
+
   const toLocalISODate = getLocalISODate;
-  
+
   const filtered = appointments.filter((appt) => {
     const search = searchTerm.toLowerCase();
     const matchesSearch =
       appt.Patient_Name?.toLowerCase().includes(search) ||
       appt.Patient_ID?.toString().includes(search);
-  
+
     const appointmentDate = toLocalISODate(appt.Appointment_Date);
-  
+
     const matchesDate =
       filterMode === 'today'
         ? appointmentDate === today
         : filterMode === 'date'
         ? appointmentDate === selectedDate
         : true;
-  
+
     return matchesSearch && matchesDate;
   });
-  
 
   const confirmDelete = (appt) => {
     setAppointmentToDelete(appt);
@@ -60,7 +62,7 @@ const AppointmentPage = () => {
 
   const handleConfirmedDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/appointments/${appointmentToDelete.Appointment_ID}`);
+      await axios.delete(`${API_URL}/api/appointments/${appointmentToDelete.Appointment_ID}`);
       setShowConfirmModal(false);
       fetchAppointments();
     } catch (err) {
@@ -98,7 +100,7 @@ const AppointmentPage = () => {
 
   const handleStatusChange = async (appointmentId, newStatus) => {
     try {
-      await axios.patch('http://localhost:5000/api/appointments/status', {
+      await axios.patch(`${API_URL}/api/appointments/status`, {
         Appointment_ID: appointmentId,
         Status: newStatus,
       });
@@ -179,19 +181,18 @@ const AppointmentPage = () => {
         />
       )}
 
-{showDetailModal && selectedAppointment && (
-  <AppointmentDetailModal
-    appointment={selectedAppointment}
-    onClose={() => setShowDetailModal(false)}
-    onStatusChange={handleStatusChange}
-    onEdit={(appt) => {
-      setEditAppointment(appt);
-      setShowDetailModal(false);
-      setShowModal(true);
-    }}
-  />
-)} 
-
+      {showDetailModal && selectedAppointment && (
+        <AppointmentDetailModal
+          appointment={selectedAppointment}
+          onClose={() => setShowDetailModal(false)}
+          onStatusChange={handleStatusChange}
+          onEdit={(appt) => {
+            setEditAppointment(appt);
+            setShowDetailModal(false);
+            setShowModal(true);
+          }}
+        />
+      )}
 
       {showConfirmModal && (
         <div className="modal-overlay">

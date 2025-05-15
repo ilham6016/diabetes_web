@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './AddPatient.css'; // ใช้ style เดิมได้เลย
 
+const API_URL = process.env.REACT_APP_API;
 const AddHealthData = ({ patientId, onSuccess, closePopup }) => {
   const [formData, setFormData] = useState({
     Systolic_BP: '',
@@ -56,7 +57,7 @@ const AddHealthData = ({ patientId, onSuccess, closePopup }) => {
 
     try {
       // ✅ 1. บันทึกข้อมูลสุขภาพ
-      const res = await fetch(`http://localhost:5000/api/patient/${patientId}/health`, {
+      const res = await fetch(`${API_URL}/api/patient/${patientId}/health`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -65,7 +66,7 @@ const AddHealthData = ({ patientId, onSuccess, closePopup }) => {
       if (!res.ok) throw new Error('Error saving health data');
 
       // ✅ 2. อัปเดตสีตามข้อมูลสุขภาพล่าสุด
-      await fetch(`http://localhost:5000/api/patient/${patientId}/update-color`, {
+      await  fetch(`${API_URL}/api/patient/${patientId}/update-color`, {
         method: 'POST'
       });
 

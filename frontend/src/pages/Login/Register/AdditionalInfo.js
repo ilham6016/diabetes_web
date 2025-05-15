@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./AdditionalInfo.css";
 
+const API_URL = process.env.REACT_APP_API; // ✅ ใช้ค่า API จาก .env
+
 function AdditionalInfo() {
   const [formData, setFormData] = useState({
     username: "",
@@ -28,7 +30,7 @@ function AdditionalInfo() {
     const completeData = { ...googleData, ...formData };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/google/register", completeData);
+      const response = await axios.post(`${API_URL}/api/auth/google/register`, completeData);
       setMessage(response.data.message);
     } catch (error) {
       setMessage(error.response?.data?.message || "เกิดข้อผิดพลาดในการลงทะเบียน");

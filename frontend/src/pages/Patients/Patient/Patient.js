@@ -3,6 +3,9 @@ import AddPatientForm from './AddPatient';
 import AddHealthData from './AddhealthData';
 import './Patient.css';
 
+const API_URL = process.env.REACT_APP_API;
+
+
 const AllPatients = () => {
   const [patients, setPatients] = useState([]);
   const [showAddPopup, setShowAddPopup] = useState(false);
@@ -17,7 +20,7 @@ const AllPatients = () => {
   const fetchPatients = async () => {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5000/api/patient/all');
+      const res = await fetch(`${API_URL}/api/patient/all`);
       if (!res.ok) throw new Error('ไม่สามารถโหลดข้อมูลผู้ป่วยได้');
       const data = await res.json();
       setPatients(data);
@@ -42,9 +45,10 @@ const AllPatients = () => {
   const handleHealthSuccess = async () => {
     setShowHealthPopup(false);
     if (selectedPatientId) {
-      await fetch(`http://localhost:5000/api/patient/${selectedPatientId}/update-color`, {
-        method: 'POST'
-      });
+    await fetch(`${API_URL}/api/patient/${selectedPatientId}/update-color`, {
+       method: 'POST'
+    });
+
     }
     fetchPatients();
   };

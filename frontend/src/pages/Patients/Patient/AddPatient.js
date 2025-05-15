@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './AddPatient.css';
 
+const API_URL = process.env.REACT_APP_API;
+
 const AddPatientForm = ({ onSuccess, closePopup }) => {
   const [formData, setFormData] = useState({
     name: '', lastname: '', address: '',
@@ -54,7 +56,7 @@ const AddPatientForm = ({ onSuccess, closePopup }) => {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/patient/add`, {
+      const res = await fetch(`${API_URL}/api/patient/add`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

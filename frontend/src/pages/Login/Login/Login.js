@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import GoogleLogin from "./GoogleLogin";
 import { Link } from "react-router-dom";
-import "./Login.css"; // ✨ นำเข้า CSS ที่ตกแต่งไว้
+import "./Login.css";
+
+const API_URL = process.env.REACT_APP_API; // ✅ เพิ่มบรรทัดนี้
+
 function parseJwt(token) {
   try {
     const base64Url = token.split('.')[1];
@@ -10,12 +13,9 @@ function parseJwt(token) {
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split('')
-        .map((c) => {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        })
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
         .join('')
     );
-
     return JSON.parse(jsonPayload);
   } catch (error) {
     return null;
@@ -37,21 +37,18 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", formData);
+      const response = await axios.post(`${API_URL}/api/auth/login`, formData); // ✅ ใช้ API_URL
       const token = response.data.token;
       localStorage.setItem("token", token);
-  
-      const decoded = parseJwt(token); // ✨ ถอด JWT
-      localStorage.setItem("role", decoded?.role); // ✨ ดึง role จาก token
-  
+
+      const decoded = parseJwt(token);
+      localStorage.setItem("role", decoded?.role);
+
       window.location.href = "/home";
     } catch (error) {
       setMessage(error.response?.data?.message || "เกิดข้อผิดพลาดในการเข้าสู่ระบบ");
     }
   };
-  
-  
-  
 
   return (
     <div className="login-container">

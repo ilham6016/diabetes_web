@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
+const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
 function GoogleRegister() {
-  // Initialize Google Login
   useEffect(() => {
+    if (!CLIENT_ID || !window.google) return;
+
     window.google.accounts.id.initialize({
-      client_id: "1096231308218-5bd1op2fctg1gljjskpl1qaa2uhfm5h1.apps.googleusercontent.com", // ใส่ Client ID จาก Google Developer Console
+      client_id: CLIENT_ID,
       callback: handleCallbackResponse,
     });
 
-    // Render Google Button
     window.google.accounts.id.renderButton(
-      document.getElementById("google-register-button"), // จุดที่ปุ่ม Google จะปรากฏ
+      document.getElementById("google-register-button"),
       { theme: "outline", size: "large" }
     );
   }, []);
@@ -21,21 +23,21 @@ function GoogleRegister() {
     console.log("Google User:", user);
 
     // เก็บข้อมูล Google ลง localStorage
-    window.localStorage.setItem("googleRegister", JSON.stringify({
+    localStorage.setItem("googleRegister", JSON.stringify({
       googleIdToken: response.credential,
       name: user.name,
       email: user.email,
       picture: user.picture,
     }));
 
-    // เปลี่ยนหน้าไปยังหน้า "Provide Additional Info"
-    window.location.href = "/additional-info"; // แก้ไข URL ที่ต้องการ
+    // ไปหน้าเก็บข้อมูลเพิ่มเติม
+    window.location.href = "/additional-info";
   };
 
   return (
     <div>
       <h2>Register with Google</h2>
-      <div id="google-register-button"></div> {/* ตำแหน่งปุ่ม Google */}
+      <div id="google-register-button"></div>
     </div>
   );
 }

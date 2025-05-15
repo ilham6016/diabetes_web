@@ -9,6 +9,8 @@ import {
   Button,
 } from "@mui/material";
 
+const API_URL = process.env.REACT_APP_API;
+
 // ดึงอักษรย่อจากชื่อ
 const getInitials = (name) => {
   if (!name) return "";
@@ -26,7 +28,7 @@ function UserProfile() {
   useEffect(() => {
     async function fetchProfile() {
       try {
-        const response = await axios.get("http://localhost:5000/api/user/me", {
+        const response = await axios.get(`${API_URL}/api/user/me`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setProfile(response.data.profile);
@@ -53,8 +55,7 @@ function UserProfile() {
 
   const handleSave = async () => {
     try {
-      await axios.patch(
-        "http://localhost:5000/api/user/me",
+      await axios.patch(`${API_URL}/api/user/me`,
         { ...formData },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

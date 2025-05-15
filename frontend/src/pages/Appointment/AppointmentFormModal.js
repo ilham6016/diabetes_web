@@ -1,7 +1,8 @@
-// AppointmentFormModal.jsx
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_API; // 🔧 ดึง API URL จาก .env
 
 const AppointmentFormModal = ({ onClose, editAppointment }) => {
   const [patients, setPatients] = useState([]);
@@ -9,7 +10,7 @@ const AppointmentFormModal = ({ onClose, editAppointment }) => {
   const [hn, setHn] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/appointments/patients')
+    axios.get(`${API_URL}/api/appointments/patients`)
       .then(res => {
         const options = res.data.map(p => ({
           value: p.Patient_ID,
@@ -21,7 +22,6 @@ const AppointmentFormModal = ({ onClose, editAppointment }) => {
           const match = options.find(opt => opt.value === editAppointment.hn);
           setSelectedPatient(match || null);
           setHn(editAppointment.hn);
-
         }
       })
       .catch(err => console.error('โหลดรายชื่อผู้ป่วยล้มเหลว:', err));
@@ -30,27 +30,25 @@ const AppointmentFormModal = ({ onClose, editAppointment }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
-  
+
     const payload = {
       Patient_ID: hn,
       Appointment_Date: form.date.value,
       Appointment_Time: form.time.value,
       Reason: form.note.value,
-  Status: 'รอพบแพทย์'
-
+      Status: 'รอพบแพทย์'
     };
-  
+
     try {
       if (editAppointment) {
-        // เพิ่ม ID สำหรับแก้ไข
-        await axios.put('http://localhost:5000/api/appointments', {
+        await axios.put(`${API_URL}/api/appointments`, {
           ...payload,
-          Appointment_ID: editAppointment.id, // สมมุติว่า prop ที่ส่งมาคือ id
+          Appointment_ID: editAppointment.id,
         });
       } else {
-        await axios.post('http://localhost:5000/api/appointments', payload);
+        await axios.post(`${API_URL}/api/appointments`, payload);
       }
-  
+
       onClose();
       form.reset();
     } catch (error) {
@@ -58,12 +56,10 @@ const AppointmentFormModal = ({ onClose, editAppointment }) => {
       alert('ไม่สามารถบันทึกนัดหมายได้');
     }
   };
-  
 
   const handlePatientChange = (selected) => {
     setSelectedPatient(selected);
     setHn(selected.value);
-
   };
 
   return (
@@ -127,12 +123,11 @@ const AppointmentFormModal = ({ onClose, editAppointment }) => {
             <div>
               <label>เวลา</label>
               <input
-  name="time"
-  type="time"
-  required
-  defaultValue={editAppointment?.time || ''}
-/>
-
+                name="time"
+                type="time"
+                required
+                defaultValue={editAppointment?.time || ''}
+              />
             </div>
             <div className="full-width">
               <label>หมายเหตุ</label>

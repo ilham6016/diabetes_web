@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+const API_URL = process.env.REACT_APP_API;
+
 const AddHealthData = () => {
   const [formData, setFormData] = useState({
     patientId: "",
@@ -25,7 +27,7 @@ const AddHealthData = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/healthRecordRoutes/add", {
+      const response = await fetch(`${API_URL}/api/healthRecordRoutes/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -60,14 +62,30 @@ const AddHealthData = () => {
     <div className="container">
       <h2>เพิ่มข้อมูลสุขภาพ</h2>
       <form onSubmit={handleSubmit}>
-        <label>รหัสผู้ป่วย:<input type="number" name="patientId" value={formData.patientId} onChange={handleChange} required /></label>
-        <label>วันที่บันทึก:<input type="date" name="date" value={formData.date} onChange={handleChange} required /></label>
-        <label>ระดับน้ำตาล:<input type="number" step="0.1" name="bloodSugar" value={formData.bloodSugar} onChange={handleChange} /></label>
-        <label>ความดันโลหิตบน:<input type="number" name="systolicBP" value={formData.systolicBP} onChange={handleChange} /></label>
-        <label>ความดันโลหิตล่าง:<input type="number" name="diastolicBP" value={formData.diastolicBP} onChange={handleChange} /></label>
-        <label>น้ำหนัก (kg):<input type="number" step="0.1" name="weight" value={formData.weight} onChange={handleChange} /></label>
-        <label>ส่วนสูง (cm):<input type="number" name="height" value={formData.height} onChange={handleChange} /></label>
-        <label>รอบเอว (cm):<input type="number" step="0.1" name="waist" value={formData.waist} onChange={handleChange} /></label>
+        <label>รหัสผู้ป่วย:
+          <input type="number" name="patientId" value={formData.patientId} onChange={handleChange} required />
+        </label>
+        <label>วันที่บันทึก:
+          <input type="date" name="date" value={formData.date} onChange={handleChange} required />
+        </label>
+        <label>ระดับน้ำตาล:
+          <input type="number" step="0.1" name="bloodSugar" value={formData.bloodSugar} onChange={handleChange} />
+        </label>
+        <label>ความดันโลหิตบน:
+          <input type="number" name="systolicBP" value={formData.systolicBP} onChange={handleChange} />
+        </label>
+        <label>ความดันโลหิตล่าง:
+          <input type="number" name="diastolicBP" value={formData.diastolicBP} onChange={handleChange} />
+        </label>
+        <label>น้ำหนัก (kg):
+          <input type="number" step="0.1" name="weight" value={formData.weight} onChange={handleChange} />
+        </label>
+        <label>ส่วนสูง (cm):
+          <input type="number" name="height" value={formData.height} onChange={handleChange} />
+        </label>
+        <label>รอบเอว (cm):
+          <input type="number" step="0.1" name="waist" value={formData.waist} onChange={handleChange} />
+        </label>
         <label>สูบบุหรี่:
           <select name="smoke" value={formData.smoke} onChange={handleChange}>
             <option value="ไม่สูบ">ไม่สูบ</option>
@@ -81,7 +99,9 @@ const AddHealthData = () => {
             <option value="เสี่ยงเป็นเบาหวาน">เสี่ยงเป็นเบาหวาน</option>
           </select>
         </label>
-        <label>หมายเหตุ:<textarea name="note" value={formData.note} onChange={handleChange} /></label>
+        <label>หมายเหตุ:
+          <textarea name="note" value={formData.note} onChange={handleChange} />
+        </label>
         <button type="submit">บันทึกข้อมูล</button>
       </form>
     </div>
