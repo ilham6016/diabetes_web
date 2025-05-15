@@ -1,6 +1,7 @@
 // controllers/riskController.js
 const db = require('../config/db');
 
+
 // ฟังก์ชันคำนวณ ASCVD score
 exports.calculateASCVDScore = (req, res) => {
   const { patientId } = req.params;
